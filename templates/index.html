@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <h2>Number System Conversion</h2>
+    <form action="{{ url_for('convert') }}" method="post">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="from_system">Source System:</label>
+                <select name="from_system" id="from_system" required>
+                    {% for system in number_systems %}
+                    <option value="{{ system }}">{{ system }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="to_system">Target System:</label>
+                <select name="to_system" id="to_system" required>
+                    {% for system in number_systems %}
+                    <option value="{{ system }}">{{ system }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="number">Input Value:</label>
+            <input type="text" name="number" id="number" required autocomplete="off" spellcheck="false">
+            <div class="hint">
+                <p id="binary-hint" class="hidden">Please enter only 0s and 1s for binary numbers</p>
+                <p id="octal-hint" class="hidden">Please enter only digits 0-7 for octal numbers</p>
+                <p id="hex-hint" class="hidden">Please enter only digits 0-9 and letters A-F for hexadecimal numbers</p>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn">Convert</button>
+        </div>
+    </form>
+</div>
+
+<div class="card info-card">
+    <h3>Number System Reference</h3>
+    <p class="info-text">
+        This tool supports conversion between the following number systems:
+    </p>
+    <ul class="info-list">
+        <li><strong>Decimal (Base-10):</strong> The standard number system using digits 0-9, used in everyday mathematics and calculations.</li>
+        <li><strong>Binary (Base-2):</strong> A number system using only digits 0 and 1, fundamental to digital computing and electronic systems.</li>
+        <li><strong>Octal (Base-8):</strong> A number system using digits 0-7, providing a more compact representation of binary data.</li>
+        <li><strong>Hexadecimal (Base-16):</strong> A number system using digits 0-9 and letters A-F, commonly used in programming and computer science.</li>
+    </ul>
+</div>
+
+<script>
+    // Show appropriate hints based on selected input system
+    const fromSystem = document.getElementById('from_system');
+    const binaryHint = document.getElementById('binary-hint');
+    const octalHint = document.getElementById('octal-hint');
+    const hexHint = document.getElementById('hex-hint');
+
+    function updateHints() {
+        // Hide all hints first
+        binaryHint.classList.add('hidden');
+        octalHint.classList.add('hidden');
+        hexHint.classList.add('hidden');
+
+        // Show appropriate hint
+        if (fromSystem.value === 'Binary') {
+            binaryHint.classList.remove('hidden');
+        } else if (fromSystem.value === 'Octal') {
+            octalHint.classList.remove('hidden');
+        } else if (fromSystem.value === 'Hexadecimal') {
+            hexHint.classList.remove('hidden');
+        }
+    }
+
+    // Add focus and blur events for input field
+    const inputField = document.getElementById('number');
+    inputField.addEventListener('focus', function() {
+        this.parentElement.classList.add('focused');
+    });
+
+    inputField.addEventListener('blur', function() {
+        this.parentElement.classList.remove('focused');
+    });
+
+    // Update hints when page loads and when selection changes
+    window.addEventListener('load', updateHints);
+    fromSystem.addEventListener('change', updateHints);
+</script>
+{% endblock %}
