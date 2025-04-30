@@ -2,8 +2,6 @@
 
 A professional web application for converting between different number systems (decimal, binary, octal, and hexadecimal).
 
-![Number System Converter](https://i.imgur.com/placeholder.png)
-
 ## Description
 
 The Number System Converter is a Flask-based web application that allows users to convert numbers between different numeral systems. It provides a clean, professional interface for performing conversions with immediate results displayed below the input field.
